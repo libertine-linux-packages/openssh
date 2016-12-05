@@ -1,0 +1,199 @@
+# This file is part of libertine linux's package openssh. It is subject to the license terms in the COPYRIGHT file found in the top-level directory of this distribution and at https://raw.githubusercontent.com/libertine-linux-packages/openssh/master/COPYRIGHT. No part of libertine linux's package openssh, including this file, may be copied, modified, propagated, or distributed except according to the terms contained in the COPYRIGHT file.
+# Copyright © 2016 The developers of libertine linux's package openssh. See the COPYRIGHT file in the top-level directory of this distribution and at https://raw.githubusercontent.com/libertine-linux-packages/openssh/master/COPYRIGHT.
+
+
+# List of entries last created for OpenSSH 7.3p1
+
+Host *
+	AddKeysToAgent no
+
+	AddressFamily any
+	
+	BatchMode no
+	
+	# BindAddress
+	
+	# CanonicalDomains
+	# CanonicalizeFallbackLocal
+	# CanonicalizeHostname
+	# CanonicalizeMaxDots
+	# CanonicalizePermittedCNAMEs
+	
+	# CertificateFile
+	
+	# Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html
+	ChallengeResponseAuthentication no
+	
+	CheckHostIP yes
+	
+	# Protocol 1, which we don't use; if accidentally enabled, we use blowfish
+	Cipher blowfish
+	
+	# Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html
+	Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+	
+	ClearAllForwardings no
+	
+	# After the attacks on TLS, this is probably not advisable
+	Compression no
+	
+	# Protocol 1, which we don't use
+	CompressionLevel 9
+	
+	# One-per-second
+	ConnectionAttempts 30
+	
+	# Try for upto 30 seconds
+	ConnectTimeout 30
+	
+	ControlMaster no
+	ControlPath none
+	# ControlPersist
+	
+	# DynamicForward
+	
+	# Host-based authentication is a bad idea; we also don't install libexec/ssh-keysign
+	EnableSSHKeysign no
+	
+	EscapeChar ~
+	
+	ExitOnForwardFailure no
+	
+	FingerprintHash sha256
+	
+	ForwardAgent no
+	
+	ForwardX11 no
+	
+	# ForwardX11Timeout
+	
+	ForwardX11Trusted no
+	
+	GatewayPorts no
+	
+	GlobalKnownHostsFile /etc/ssh_known_hosts
+	
+	GSSAPIAuthentication no
+	
+	GSSAPIKeyExchange no
+	
+	# GSSAPIClientIdentity
+	
+	GSSAPIDelegateCredentials no
+	
+	GSSAPIRenewalForcesRekey yes
+	
+	GSSAPITrustDns no
+	
+	HashKnownHosts yes
+	
+	HostbasedAuthentication no
+	
+	# Implied from advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html; should not be used as HostbaseAuthentication is disabled, but if enabled, provides a safe default
+	HostbasedKeyTypes ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-ed25519,ssh-rsa
+	
+	# Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html
+	HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-ed25519,ssh-rsa
+	
+	# HostKeyAlias
+	
+	# HostName
+	
+	IdentitiesOnly yes
+	
+	IdentityAgent SSH_AUTH_SOCK
+
+    IdentityFile ~/.ssh/id_ed25519
+    IdentityFile ~/.ssh/id_rsa
+	# ssh-keygen -t ed25519 -o -a 100
+	# ssh-keygen -t rsa -b 4096 -o -a 100
+	
+	# IgnoreUnknown
+	
+	# Include
+	
+	IPQoS lowdelay throughput
+	
+	KbdInteractiveAuthentication yes
+	
+	# KbdInteractiveDevices
+		
+	KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
+	
+	# LocalCommand
+	
+	# LocalForward
+	
+	LogLevel INFO
+	
+	# Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html
+	MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
+	
+	NoHostAuthenticationForLocalhost no
+	
+	NumberOfPasswordPrompts 3
+	
+	# Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html
+	PasswordAuthentication no
+	
+	PermitLocalCommand no
+	
+	# PKCS11Provider
+	
+	Port 22
+	
+	PreferredAuthentications publickey,keyboard-interactive
+
+	Protocol 2
+	
+	# ProxyCommand none
+	# ProxyJump
+	# ProxyUseFdpass
+	
+	PubkeyAcceptedKeyTypes ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-ed25519,ssh-rsa
+	
+	# Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html
+	PubkeyAuthentication yes
+	
+	RekeyLimit 1G 1h
+	
+	# RemoteForward
+	
+	RequestTTY auto
+	
+	RevokedHostKeys /etc/ssh_revoked_hosts_keys
+	
+	# Protocol 1
+    RhostsRSAAuthentication no
+	
+	# Protocol 1
+    RSAAuthentication no
+	
+	# SendEnv
+	
+	ServerAliveCountMax 3
+	ServerAliveInterval 15
+	
+	StreamLocalBindMask 0177
+	StreamLocalBindUnlink no
+	
+	StrictHostKeyChecking ask
+	
+	TCPKeepAlive yes
+	
+	Tunnel no
+	TunnelDevice any:any
+	
+	UpdateHostKeys no
+	
+	UsePrivilegedPort no
+	
+	# User
+	
+	UserKnownHostsFile ~/.ssh/known_hosts
+	
+	VerifyHostKeyDNS no
+	
+	VisualHostKey no
+	
+	XAuthLocation none

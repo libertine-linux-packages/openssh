@@ -1,0 +1,179 @@
+# This file is part of libertine linux's package openssh. It is subject to the license terms in the COPYRIGHT file found in the top-level directory of this distribution and at https://raw.githubusercontent.com/libertine-linux-packages/openssh/master/COPYRIGHT. No part of libertine linux's package openssh, including this file, may be copied, modified, propagated, or distributed except according to the terms contained in the COPYRIGHT file.
+# Copyright © 2016 The developers of libertine linux's package openssh. See the COPYRIGHT file in the top-level directory of this distribution and at https://raw.githubusercontent.com/libertine-linux-packages/openssh/master/COPYRIGHT.
+
+
+AcceptEnv TERM
+
+AddressFamily any
+
+AllowAgentForwarding no
+
+DenyUsers root bin daemon nobody acpid cron httpd ntp watchdog ssh-authorized-keys ssh ssh-authorized-principals
+AllowUsers
+DenyGroups sys nobody nogroup daemon acpid cron httpd ntp watchdog ssh
+# Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html (group name adjusted)
+AllowGroups ssh-users
+
+AllowTcpForwarding no
+
+AllowStreamLocalForwarding no
+
+# Change this for multi-factor authentication
+AuthenticationMethods any
+
+Banner none
+
+# Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html
+ChallengeResponseAuthentication no
+
+ChrootDirectory none
+
+# Adapated from advice at https://stribika.github.io/2015/01/04/secure-secure-shell.html
+# Removed all buy ChaCha20-Poly1305 and GCM variants of AES
+Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com
+
+ClientAliveCountMax 3
+ClientAliveInterval 15
+
+# We're not going to support compression in 2016
+Compression no
+
+FingerprintHash sha256
+
+ForceCommand none
+
+GatewayPorts no
+
+GSSAPIAuthentication np
+
+GSSAPICleanupCredentials yes
+
+GSSAPIStrictAcceptorCheck yes
+	
+# Implied from advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html; should not be used as HostbaseAuthentication is disabled, but if enabled, provides a safe default
+HostbasedAcceptedKeyTypes ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-ed25519,ssh-rsa
+
+HostbasedAuthentication no
+
+HostbasedUsesNameFromPacketOnly no
+
+# HostCertificate
+
+HostKey /etc/ssh_host_ed25519_key
+HostKey /etc/ssh_host_rsa_key
+# cd etc
+# rm -rf ssh_host_ed25519_key; ssh-keygen -t ed25519 -f ssh_host_ed25519_key -N '' -q </dev/null
+# rm -rf ssh_host_rsa_key; ssh-keygen -t rsa -b 4096 -f ssh_host_rsa_key -N '' -q </dev/null
+
+IgnoreRhosts yes
+
+IPQoS lowdelay throughput
+
+KbdInteractiveAuthentication yes
+
+KerberosAuthentication no
+
+KerberosGetAFSToken no
+
+KerberosOrLocalPasswd no
+
+KerberosTicketCleanup yes
+
+# Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html
+KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
+
+# Protocol 1
+KeyRegenerationInterval 3600
+
+# ListenAddress
+
+LoginGraceTime 30
+
+LogLevel INFO
+
+# Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
+
+# Match - support multiple overrides, including ALL
+
+MaxSessions 10
+
+MaxStartups 10:30:100
+
+# Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html
+PasswordAuthentication no
+
+PermitEmptyPasswords no
+
+# PermitOpen
+
+PermitRootLogin no
+
+PermitTunnel no
+
+PermitTTY yes
+
+PermitUserEnvironment no
+
+PermitUserRC no
+
+PidFile /var/run/sshd.pid
+
+# Port
+
+PrintLastLog yes
+
+PrintMotd yes
+
+Protocol 2
+
+# Derived from Advice at https://stribika.github.io/2015/01/04/secure-secure-shell.html
+PubkeyAcceptedKeyTypes ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-ed25519,ssh-rsa
+
+# Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html
+PubkeyAuthentication yes
+
+RekeyLimit 1G 1h
+
+RevokedKeys /etc/sshd_revoked_keys
+
+# Protocol 1
+RhostsRSAAuthentication no
+
+# Protocol 1
+RSAAuthentication no
+
+# Protocol 1
+ServerKeyBits 1024
+
+StreamLocalBindMask 0177
+StreamLocalBindUnlink no
+
+StrictModes yes
+
+# No sftp support
+# Subsystem
+
+SyslogFacility AUTH
+
+TCPKeepAlive yes
+
+TrustedUserCAKeys none
+
+UseDNS yes
+
+UseLogin no
+
+UsePAM no
+
+UsePrivilegeSeparation sandbox
+
+VersionAddendum none
+
+X11DisplayOffset 10
+
+X11Forwarding no
+
+X11UseLocalhost yes
+
+XAuthLocation none

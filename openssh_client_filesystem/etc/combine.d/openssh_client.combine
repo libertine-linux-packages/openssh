@@ -1,0 +1,3 @@
+/etc ssh_config 0644 nosort
+/etc ssh_known_hosts 0644 nosort
+/etc ssh_revoked_host_keys 0644 nosort

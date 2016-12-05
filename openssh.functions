@@ -1,0 +1,123 @@
+# This file is part of libertine linux's package openssh. It is subject to the license terms in the COPYRIGHT file found in the top-level directory of this distribution and at https://raw.githubusercontent.com/libertine-linux-packages/openssh/master/COPYRIGHT. No part of libertine linux's package openssh, including this file, may be copied, modified, propagated, or distributed except according to the terms contained in the COPYRIGHT file.
+# Copyright © 2016 The developers of libertine linux's package openssh. See the COPYRIGHT file in the top-level directory of this distribution and at https://raw.githubusercontent.com/libertine-linux-packages/openssh/master/COPYRIGHT.
+
+
+variant=upstream
+
+depends zlib
+depends libressl
+depends audit_userspace_libaudit
+
+depends build_ccache
+build_needs ccache
+
+depends build_gnumake
+build_needs make
+
+depends build_slibtool
+build_needs clibtool-static libtoolize realpath
+
+depends build_perl
+build_needs perl
+
+depends build_autoconf
+build_needs autoconf autoheader autom4te autoreconf autoscan autoupdate ifnames
+
+depends build_automake
+build_needs automake aclocal
+
+depends build_gnum4
+build_needs m4
+
+depends build_musl_cross_make_host
+build_needs "$libertine_host"-cc "$libertine_host"-gcc "$libertine_host"-ar "$libertine_host"-ld "$libertine_host"-ranlib
+
+depends build_busybox
+build_needs expr install sort ls sleep uname
+
+depends build_gnuconfig
+
+build_needs sed mv rm awk
+libertine_compile_openssh()
+{
+	# ? http://www.openbsm.org ?
+	pushd "$(libertine_public_sourcePath)"
+		
+		libertine_public_autoconf_replaceWithKnownVersionOfConfigGuess ./
+		libertine_public_autoconf_replaceWithKnownVersionOfConfigSub ./
+		libertine_public_autoconf_replaceWithKnownVersionOfInstallSh ./
+		libertine_public_autoconf_replaceWithKnownVersionOfMkinstalldirs ./
+		
+		libertine_public_populateInputSysroot zlib libressl audit_userspace_libaudit
+		
+		libertine_public_autoconf_adjustConfigureAcToRemoveGnuTextCruftBeforeAutoconf
+		
+		# glibc-ism
+		sed -i -e 's;#include <linux/prctl.h>;#include <sys/prctl.h>;g' configure.ac
+		
+		libtoolize --install --force --verbose
+		autoreconf --install --force --verbose
+		
+		libertine_public_autoconf_modernAutoconfConfigure \
+			--disable-pkcs11 \
+			--disable-strip \
+			--disable-etc-default-login \
+			--disable-lastlog \
+			--disable-utmp \
+			--disable-utmpx \
+			--disable-wtmp \
+			--disable-wtmpx \
+			--disable-pututline \
+			--disable-pututxline \
+			--without-rpath \
+			--without-pam \
+			--with-mantype=man \
+			--with-zlib="$(libertine_public_outputHostSysrootPath zlib)" \
+			--without-zlib-version-check \
+			--with-audit=linux \
+			--with-ssl-dir="$(libertine_public_outputHostSysrootPath libressl)" \
+			--without-openssl-header-check \
+			--with-privsep-user=sshd \
+			--with-sandbox=seccomp_filter \
+			--with-privsep-path=/var/empty \
+			--with-maildir=/var/spool/mail \
+			--with-ipaddr-display \
+			--with-default-path=/usr/bin \
+			--with-superuser-path=/usr/sbin \
+			--with-4in6 \
+			--with-pid-dir=/var/run
+		
+		sed -i \
+			-e '/#define BROKEN_ONE_BYTE_DIRENT_D_NAME/d' \
+			-e '/#define HAVE_ARC4RANDOM/d' \
+			-e '/#define HAVE_ARC4RANDOM_BUF/d' \
+			-e '/#define HAVE_ARC4RANDOM_STIR/d' \
+			-e '/#define HAVE_ARC4RANDOM_UNIFORM/d' \
+			-e '/#define LOGIN_PROGRAM_FALLBACK/d' \
+			-e '/#define _PATH_PASSWD_PROG/d' \
+			config.h
+		cat >>config.h <<-'EOF'
+			#define LOGIN_PROGRAM_FALLBACK "/usr/bin/login"
+			#define _PATH_PASSWD_PROG "/usr/bin/passwd"
+			#define HAVE___PROGNAME 1
+			#define LOCKED_PASSWD_STRING "!"
+			#define DISABLE_SHADOW 1
+		EOF
+		
+		libertine_public_autoconf_removePoToRemoveGnuTextCruftBeforeMake
+		
+		libertine_public_make
+		
+		libertine_public_make DESTDIR="$(libertine_public_outputHostSysrootPath)" install
+		
+	popd
+	
+	# From https://stribika.github.io/2015/01/04/secure-secure-shell.html
+	pushd "$(libertine_public_outputHostSysrootPath)"/etc
+		
+		mv moduli moduli.orig
+		awk '$5 > 2000' moduli.orig >moduli
+		rm moduli.orig
+		
+	popd
+}
