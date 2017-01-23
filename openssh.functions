@@ -55,6 +55,9 @@ libertine_compile_openssh()
 		# glibc-ism
 		sed -i -e 's;#include <linux/prctl.h>;#include <sys/prctl.h>;g' configure.ac
 		
+		# Override location of /etc/ssh
+		sed -i -e 's;SSHDIR=\\"\$(sysconfdir)\\";SSHDIR=\\"$(sysconfdir)/ssh\\";g' Makefile.in
+		
 		libtoolize --install --force --verbose
 		autoreconf --install --force --verbose
 		

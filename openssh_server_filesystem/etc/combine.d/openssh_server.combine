@@ -1,3 +1,3 @@
-/etc sshd_config 0644 nosort
-/etc sshd_revoked_keys 0644 nosort
-/etc sshd_authorized_principals 0644 nosort
+/etc/ssh sshd_config 0644 nosort
+/etc/ssh sshd_revoked_keys 0644 nosort
+/etc/ssh sshd_authorized_principals 0644 nosort

@@ -18,7 +18,7 @@ libertine_compile_openssh_server()
 	local upstreamPath="$(libertine_public_outputHostSysrootPath openssh)"
 	
 	libertine_public_copy_filesystem "$(libertine_public_sourcePath)"/ "$outputSysrootFolderPath"/
-	cp "$upstreamPath"/etc/moduli "$outputSysrootFolderPath"/etc
+	cp "$upstreamPath"/etc/moduli "$outputSysrootFolderPath"/etc/ssh
 	cp "$upstreamPath"/usr/sbin/sshd "$outputSysrootFolderPath"/usr/sbin
 	
 	set +f
@@ -30,7 +30,7 @@ libertine_compile_openssh_server()
 	done
 	set -f
 	
-	local configFilePath="$outputSysrootFolderPath"/etc/sshd_config.d/00openssh_server.sshd_config
+	local configFilePath="$outputSysrootFolderPath"/etc/ssh/sshd_config.d/00openssh_server.sshd_config
 	
 	if core_variable_isSet libertine_openssh_server_ForceCommand; then
 		sed -i -e 's/ForceCommand .*$/ForceCommand '"$libertine_openssh_server_ForceCommand"'/g' "$configFilePath"

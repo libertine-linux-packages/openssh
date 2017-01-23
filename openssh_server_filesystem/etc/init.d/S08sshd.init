@@ -8,7 +8,7 @@ init_sshd_start()
 		return 0
 	fi
 	
-	sshd -u0 "@"
+	taskset 0x00000001 sshd -u0 "@"
 }
 
 init_sshd_stop()
@@ -30,8 +30,6 @@ init_sshd_reload()
 
 init_sshd_main()
 {
-	. /usr/lib/rc.functions
-	
 	if [ "$#" -eq 0 ]; then
 		local action='status'
 	else

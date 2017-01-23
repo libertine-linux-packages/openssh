@@ -21,7 +21,7 @@ libertine_compile_openssh_client()
 	local upstreamPath="$(libertine_public_outputHostSysrootPath openssh)"
 	
 	libertine_public_copy_filesystem "$(libertine_public_sourcePath)"/ "$outputSysrootFolderPath"/
-	cp "$upstreamPath"/etc/moduli "$outputSysrootFolderPath"/etc
+	cp "$upstreamPath"/etc/moduli "$outputSysrootFolderPath"/etc/ssh
 	cp "$upstreamPath"/usr/bin/ssh "$outputSysrootFolderPath"/usr/bin
 	cp "$upstreamPath"/usr/bin/ssh-agent "$outputSysrootFolderPath"/usr/bin
 	cp "$upstreamPath"/usr/bin/ssh-keygen "$outputSysrootFolderPath"/usr/bin
@@ -36,7 +36,7 @@ libertine_compile_openssh_client()
 	done
 	set -f
 	
-	local configFilePath="$outputSysrootFolderPath"/etc/ssh_config.d/90openssh_client.ssh_config
+	local configFilePath="$outputSysrootFolderPath"/etc/ssh/ssh_config.d/90openssh_client.ssh_config
 	
 	if core_variable_isSet libertine_openssh_client_Port; then
 		sed -i -e 's/Port .*$/Port '"$libertine_openssh_client_Port"'/g' "$configFilePath"
