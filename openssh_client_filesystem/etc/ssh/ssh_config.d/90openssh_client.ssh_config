@@ -71,7 +71,7 @@ Host *
 	
 	GatewayPorts no
 	
-	GlobalKnownHostsFile /etc/ssh_known_hosts
+	GlobalKnownHostsFile /etc/ssh/ssh_known_hosts
 	
 	GSSAPIAuthentication no
 	
@@ -161,7 +161,7 @@ Host *
 	
 	RequestTTY auto
 	
-	RevokedHostKeys /etc/ssh_revoked_hosts_keys
+	RevokedHostKeys /etc/ssh/ssh_revoked_hosts_keys
 	
 	# Protocol 1
     RhostsRSAAuthentication no

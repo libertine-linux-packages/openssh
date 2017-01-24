@@ -3,5 +3,5 @@
 
 
 AuthorizedKeysCommand /usr/libexec/ssh-authorized-keys %u %h %t %f %k
-AuthorizedKeysCommandUser ssh-authorized-keys
+AuthorizedKeysCommandUser sshd-authorized-keys
 AuthorizedKeysFile none

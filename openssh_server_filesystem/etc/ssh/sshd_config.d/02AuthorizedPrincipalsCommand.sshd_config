@@ -3,7 +3,7 @@
 
 
 # AuthorizedPrincipalsCommand /usr/libexec/ssh-authorized-principals %u %h
-# AuthorizedPrincipalsCommandUser ssh-authorized-principals
+# AuthorizedPrincipalsCommandUser sshd-authorized-principals
 # AuthorizedPrincipalsFile none
 
 AuthorizedPrincipalsFile none

@@ -10,7 +10,7 @@ AllowAgentForwarding no
 
 DenyUsers root bin daemon nobody acpid cron httpd ntp watchdog ssh-authorized-keys ssh ssh-authorized-principals
 AllowUsers
-DenyGroups sys nobody nogroup daemon acpid cron httpd ntp watchdog ssh
+DenyGroups sys nobody nogroup daemon acpid cron httpd ntp watchdog
 # Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html (group name adjusted)
 AllowGroups ssh-users
 
@@ -44,11 +44,10 @@ ForceCommand none
 
 GatewayPorts no
 
-GSSAPIAuthentication np
-
-GSSAPICleanupCredentials yes
-
-GSSAPIStrictAcceptorCheck yes
+# Disabled by ./configure
+# GSSAPIAuthentication np
+# GSSAPICleanupCredentials yes
+# GSSAPIStrictAcceptorCheck yes
 	
 # Implied from advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html; should not be used as HostbaseAuthentication is disabled, but if enabled, provides a safe default
 HostbasedAcceptedKeyTypes ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-ed25519,ssh-rsa
@@ -59,9 +58,9 @@ HostbasedUsesNameFromPacketOnly no
 
 # HostCertificate
 
-HostKey /etc/ssh_host_ed25519_key
-HostKey /etc/ssh_host_rsa_key
-# cd etc
+HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_rsa_key
+# cd etc/ssh
 # rm -rf ssh_host_ed25519_key; ssh-keygen -t ed25519 -f ssh_host_ed25519_key -N '' -q </dev/null
 # rm -rf ssh_host_rsa_key; ssh-keygen -t rsa -b 4096 -f ssh_host_rsa_key -N '' -q </dev/null
 
@@ -71,13 +70,11 @@ IPQoS lowdelay throughput
 
 KbdInteractiveAuthentication yes
 
-KerberosAuthentication no
-
-KerberosGetAFSToken no
-
-KerberosOrLocalPasswd no
-
-KerberosTicketCleanup yes
+# Disabled by ./configure
+# KerberosAuthentication no
+# KerberosGetAFSToken no
+# KerberosOrLocalPasswd no
+# KerberosTicketCleanup yes
 
 # Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html
 KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
@@ -121,7 +118,8 @@ PidFile /var/run/sshd.pid
 
 # Port
 
-PrintLastLog yes
+# Disabled by ./configure
+# PrintLastLog yes
 
 PrintMotd yes
 
@@ -135,7 +133,7 @@ PubkeyAuthentication yes
 
 RekeyLimit 1G 1h
 
-RevokedKeys /etc/sshd_revoked_keys
+RevokedKeys /etc/ssh/sshd_revoked_keys
 
 # Protocol 1
 RhostsRSAAuthentication no
@@ -160,11 +158,12 @@ TCPKeepAlive yes
 
 TrustedUserCAKeys none
 
-UseDNS yes
+UseDNS no
 
 UseLogin no
 
-UsePAM no
+# Disabled by ./configure
+# UsePAM no
 
 UsePrivilegeSeparation sandbox
 

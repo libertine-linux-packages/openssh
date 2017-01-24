@@ -8,7 +8,7 @@ init_sshd_start()
 		return 0
 	fi
 	
-	taskset 0x00000001 /usr/sbin/sshd -u0 "@"
+	taskset 0x00000001 /usr/sbin/sshd -u0 "$@"
 }
 
 init_sshd_stop()
