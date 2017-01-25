@@ -79,9 +79,6 @@ KbdInteractiveAuthentication yes
 # Advice from https://stribika.github.io/2015/01/04/secure-secure-shell.html
 KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
 
-# Protocol 1
-KeyRegenerationInterval 3600
-
 # ListenAddress
 
 LoginGraceTime 30
@@ -135,15 +132,6 @@ RekeyLimit 1G 1h
 
 RevokedKeys /etc/ssh/sshd_revoked_keys
 
-# Protocol 1
-RhostsRSAAuthentication no
-
-# Protocol 1
-RSAAuthentication no
-
-# Protocol 1
-ServerKeyBits 1024
-
 StreamLocalBindMask 0177
 StreamLocalBindUnlink no
 
@@ -159,8 +147,6 @@ TCPKeepAlive yes
 TrustedUserCAKeys none
 
 UseDNS no
-
-UseLogin no
 
 # Disabled by ./configure
 # UsePAM no

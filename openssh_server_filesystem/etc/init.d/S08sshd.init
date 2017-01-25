@@ -4,28 +4,28 @@
 
 init_sshd_start()
 {
-	if [ -f /var/run/sshd.pid ]; then
+	if [ -f "$pidFilePath" ]; then
 		return 0
 	fi
 	
-	taskset 0x00000001 /usr/sbin/sshd -u0 "$@"
+	taskset 0x00000001 /usr/sbin/sshd -u0 "$@" &
 }
 
 init_sshd_stop()
 {
-	if [ ! -f /var/run/sshd.pid ]; then
+	if [ ! -f "$pidFilePath" ]; then
 		return 0
 	fi
-	kill SIGTERM "$(head -n 1 /var/run/sshd.pid)"
-	rm -rf /var/run/sshd.pid
+	kill SIGTERM "$(head -n 1 "$pidFilePath")"
+	rm -rf "$pidFilePath"
 }
 
 init_sshd_reload()
 {
-	if [ ! -f /var/run/sshd.pid ]; then
+	if [ ! -f "$pidFilePath" ]; then
 		return 1
 	fi
-	kill SIGHUP "$(head -n 1 /var/run/sshd.pid)"
+	kill SIGHUP "$(head -n 1 "$pidFilePath")"
 }
 
 init_sshd_main()
@@ -36,6 +36,8 @@ init_sshd_main()
 		local action="$1"
 		shift 1
 	fi
+	
+	local pidFilePath='/var/run/sshd.pid'
 	
 	case "$action" in
 		
