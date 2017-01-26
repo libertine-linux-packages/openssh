@@ -26,7 +26,7 @@ libertine_compile_openssh_server()
 	for file in "$outputSysrootFolderPath"/usr/sbin/*
 	do
 		set -f
-		"$libertine_host"-strip "$file"
+		libertine_public_stripAndSecureBinary "$file"
 	done
 	set -f
 	
