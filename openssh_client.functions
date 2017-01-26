@@ -12,6 +12,9 @@ build_needs "$libertine_host"-strip
 depends build_musl_cross_make_host
 build_needs "$libertine_host"-strip
 
+depends build_paxctl
+build_needs paxctl
+
 depends build_busybox
 build_needs cp sed
 
