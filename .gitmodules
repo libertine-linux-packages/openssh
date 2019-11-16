@@ -2,4 +2,3 @@
 	path = upstream
 	url = https://github.com/libertine-linux-clones/openssh-portable.git
 	branch = master
-	libertine-linux-upstream = https://github.com/openssh/openssh-portable.git
